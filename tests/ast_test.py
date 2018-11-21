@@ -15,3 +15,12 @@ def test_easy_cte_tables():
     for t in [a.table for a in actual[0]]:
         actual_tables = actual_tables + t
     assert actual_tables == ['sub_table', 'cte_table']
+
+def test_multi_cte_tables():
+    with open('tests/resources/multi_cte.sql') as input:
+        actual = ASTParser().parse(input)
+
+    actual_tables = []
+    for t in [a.table for a in actual[0]]:
+        actual_tables = actual_tables + t
+    assert actual_tables == ['sub_table', 'cte_table', 'other_table']
