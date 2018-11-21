@@ -44,7 +44,8 @@ class ASTParser(Parser):
             self.ast.in_select = True
         elif node.ttype == tokens.Keyword.CTE and node.value.lower() == 'with':
             self.ast.in_with = True
-        elif node.ttype == tokens.Keyword and node.value.lower() == 'from':
+        elif node.ttype == tokens.Keyword and \
+          (node.value.lower() == 'from' or 'join' in node.value.lower()):
             self.ast.in_from = True
         pass
 
@@ -59,20 +60,19 @@ class ASTParser(Parser):
 
     def _visit_Identifier(self, node):
         print('visiting id -- in_select?{} in_from?{} in_with?{}'.format(self.ast.in_select, self.ast.in_from, self.ast.in_with))
-        print('id name={} alias={}'.format(node.get_name(), node.get_alias()))
-        names = [t.value for t in node.tokens]
+        print('id name={} alias={}'.format(node.get_real_name(), node.get_alias()))
         if self.ast.in_select:
-            self.ast.select += names
+            self.ast.select.append(node.get_name())
         elif self.ast.in_from:
-            self.ast.table += names
+            self.ast.table.append(node.get_real_name())
             self.ast.in_from = False
         elif self.ast.in_with:
-            self.ast.table.append(node.get_name())
+            self.ast.table.append(node.get_real_name())
             self._asts.append(AST())
             for t in node.tokens:
               self._visit(t)
         else:
-            print('found ids {} but not sure what for'.format(names))
+            print('found ids {} but not sure what for'.format(node.get_name()))
 
     def _visit_Parenthesis(self, node):
         print('visiting paren')
