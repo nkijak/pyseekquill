@@ -5,78 +5,75 @@ digraph astgraph {
   edge [arrowsize=.5]
 
 node0 [ label="stmt\nNone\nStatement" ]
-node1 [ label="SELECT\nToken.Keyword.DML\nToken" ]
-node2 [ label="stmt\nNone\nIdentifierList" ]
-node3 [ label="stmt\nNone\nIdentifier" ]
-node4 [ label="foo\nToken.Name\nToken" ]
-node5 [ label="stmt\nNone\nIdentifier" ]
-node6 [ label="bar\nToken.Name\nToken" ]
-node7 [ label="FROM\nToken.Keyword\nToken" ]
+node1 [ label="WITH\nToken.Keyword.CTE\nToken" ]
+node2 [ label="stmt\nNone\nIdentifier" ]
+node3 [ label="cte_table\nToken.Name\nToken" ]
+node4 [ label="as\nToken.Keyword\nToken" ]
+node5 [ label="stmt\nNone\nParenthesis" ]
+node6 [ label="select\nToken.Keyword.DML\nToken" ]
+node7 [ label="stmt\nNone\nIdentifierList" ]
 node8 [ label="stmt\nNone\nIdentifier" ]
-node9 [ label="a_table\nToken.Name\nToken" ]
-node10 [ label="stmt\nNone\nWhere" ]
-node11 [ label="WHERE\nToken.Keyword\nToken" ]
-node12 [ label="stmt\nNone\nComparison" ]
+node9 [ label="foo\nToken.Name\nToken" ]
+node10 [ label="stmt\nNone\nIdentifier" ]
+node11 [ label="bar\nToken.Name\nToken" ]
+node12 [ label="from\nToken.Keyword\nToken" ]
 node13 [ label="stmt\nNone\nIdentifier" ]
-node14 [ label="foo\nToken.Name\nToken" ]
-node15 [ label=">\nToken.Operator.Comparison\nToken" ]
-node16 [ label="1\nToken.Literal.Number.Integer\nToken" ]
-node17 [ label="AND\nToken.Keyword\nToken" ]
+node14 [ label="sub_table\nToken.Name\nToken" ]
+node15 [ label="stmt\nNone\nWhere" ]
+node16 [ label="where\nToken.Keyword\nToken" ]
+node17 [ label="stmt\nNone\nComparison" ]
 node18 [ label="stmt\nNone\nIdentifier" ]
-node19 [ label="bar\nToken.Name\nToken" ]
-node20 [ label="is\nToken.Keyword\nToken" ]
-node21 [ label="not null\nToken.Keyword\nToken" ]
-node22 [ label="ORDER\nToken.Keyword\nToken" ]
-node23 [ label="BY\nToken.Keyword\nToken" ]
-node24 [ label="stmt\nNone\nIdentifierList" ]
-node25 [ label="stmt\nNone\nIdentifier" ]
-node26 [ label="foo\nToken.Name\nToken" ]
-node27 [ label="stmt\nNone\nIdentifier" ]
-node28 [ label="bar\nToken.Name\nToken" ]
-node29 [ label="stmt\nNone\nStatement" ]
+node19 [ label="foo\nToken.Name\nToken" ]
+node20 [ label="=\nToken.Operator.Comparison\nToken" ]
+node21 [ label="1\nToken.Literal.Number.Integer\nToken" ]
+node22 [ label="SELECT\nToken.Keyword.DML\nToken" ]
+node23 [ label="stmt\nNone\nIdentifier" ]
+node24 [ label="bar\nToken.Name\nToken" ]
+node25 [ label="FROM\nToken.Keyword\nToken" ]
+node26 [ label="stmt\nNone\nIdentifier" ]
+node27 [ label="cte_table\nToken.Name\nToken" ]
+node28 [ label="stmt\nNone\nStatement" ]
 node0 -> node1
 node0 -> node2
 node2 -> node3
-node3 -> node4
-node3 -> node4
+node2 -> node4
 node2 -> node5
 node5 -> node6
+node5 -> node7
+node7 -> node8
+node8 -> node9
+node8 -> node9
+node7 -> node10
+node10 -> node11
+node10 -> node11
+node5 -> node12
+node5 -> node13
+node13 -> node14
+node13 -> node14
+node5 -> node15
+node15 -> node16
+node15 -> node17
+node17 -> node18
+node18 -> node19
+node18 -> node19
+node17 -> node20
+node17 -> node21
+node17 -> node20
+node17 -> node21
+node15 -> node16
 node5 -> node6
-node0 -> node7
-node0 -> node8
-node8 -> node9
-node8 -> node9
-node0 -> node10
-node10 -> node11
-node10 -> node12
-node12 -> node13
-node13 -> node14
-node13 -> node14
-node12 -> node15
-node12 -> node16
-node12 -> node15
-node12 -> node16
-node10 -> node17
-node10 -> node18
-node18 -> node19
-node18 -> node19
-node10 -> node20
-node10 -> node21
-node10 -> node11
-node10 -> node17
-node10 -> node20
-node10 -> node21
+node5 -> node12
+node2 -> node3
+node2 -> node4
 node0 -> node22
 node0 -> node23
-node0 -> node24
-node24 -> node25
-node25 -> node26
-node25 -> node26
-node24 -> node27
-node27 -> node28
-node27 -> node28
+node23 -> node24
+node23 -> node24
+node0 -> node25
+node0 -> node26
+node26 -> node27
+node26 -> node27
 node0 -> node1
-node0 -> node7
 node0 -> node22
-node0 -> node23
+node0 -> node25
 }
