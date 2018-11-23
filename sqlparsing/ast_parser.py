@@ -4,7 +4,7 @@ from sqlparse import tokens, sql
 class AST(object):
     def __init__(self):
         self.select = []
-        self.table = []
+        self.table = {}
         self.order = {}
         self.in_select = False
         self.in_from = False
@@ -64,10 +64,10 @@ class ASTParser(Parser):
         if self.ast.in_select:
             self.ast.select.append(node.get_name())
         elif self.ast.in_from:
-            self.ast.table.append(node.get_real_name())
+            self.ast.table[node.get_name()] = node.get_real_name()
             self.ast.in_from = False
         elif self.ast.in_with:
-            self.ast.table.append(node.get_real_name())
+            self.ast.table[node.get_name()] = node.get_real_name()
             self._asts.append(AST())
             for t in node.tokens:
               self._visit(t)
