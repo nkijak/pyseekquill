@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 tests/resources/complex*
+output.dot
+
