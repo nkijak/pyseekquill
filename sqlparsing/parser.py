@@ -3,7 +3,7 @@ import sqlparse
 class Parser(object):
   def parse(self, stream):
       stmts = sqlparse.parse(stream)
-      return [self._visit(stmt) for stmt in stmts]
+      return [result for result in [self._visit(stmt) for stmt in stmts] if result]
 
   def _visit(self, node):
     method_name = '_visit_' + type(node).__name__
