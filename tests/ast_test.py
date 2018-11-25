@@ -36,6 +36,11 @@ def test_removes_empty_stmts():
         'table_1': Source('table_1'), 
         'table_2': Source('table_2'),
     }),
+    ('tests/resources/nested_cte.sql', {
+        'outer_table': Source('outer_table', is_cte=True), 
+        'first_inner': Source('first_inner', is_cte=True),
+        'real_table_1': Source('real_table_1'),
+    }),
 
 ])
 def test_find_sources(input_path, expected_source):
