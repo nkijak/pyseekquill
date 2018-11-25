@@ -1,4 +1,5 @@
 import sqlparse
+import logging
 
 class Parser(object):
   def parse(self, stream):
@@ -11,5 +12,5 @@ class Parser(object):
     return visitor(node)
 
   def _generic_visit(self, node):
-    print('No visit_{} method'.format(type(node).__name__))
+    logging.warning('No visit_{} method'.format(type(node).__name__))
     #raise Exception('No visit_{} method'.format(type(node).__name__))

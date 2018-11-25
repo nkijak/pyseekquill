@@ -1,6 +1,8 @@
+import logging
 from functools import reduce
 from sqlparsing.parser import Parser
 from sqlparse import tokens, sql
+from pprint import pformat
 
 class BaseObject(object):
     def __eq__(self, other):
@@ -38,7 +40,6 @@ class AST(BaseObject):
       retval.order.update(self.order)
       return retval
 
-from pprint import pprint
 class ASTParser(Parser):
     def __init__(self):
         self._asts = [] #use as stack
@@ -51,28 +52,28 @@ class ASTParser(Parser):
 
     def _visit_Statement(self, node):
         self._asts.append(AST())
-        print('visiting statement')
+        logging.debug('visiting statement')
         for token in node.tokens:
             self._visit(token)
 
-        print('reducing...')
+        logging.debug('reducing...')
         asts = self.sub_asts + self._asts
-        pprint(asts)
+        logging.debug(pformat(asts))
         retval = reduce(lambda el, acc: acc.merge(el), asts)
         self._asts = []
         self.sub_asts = []
 
-        print('reduced to:')
-        pprint(retval)
+        logging.debug('reduced to:')
+        logging.debug(pformat(retval))
 
         return retval
 
     def _visit_Operation(self, node):
-        print('visiting operation')
+        logging.debug('visiting operation')
         pass
 
     def _visit_Token(self, node):
-        print('visiting token {} {}'.format(node.ttype, node.value.lower()))
+        logging.debug('visiting token {} {}'.format(node.ttype, node.value.lower()))
         if node.ttype == tokens.Keyword.DML and node.value.lower() == 'select':
             self.ast.in_select = True
 
@@ -85,7 +86,7 @@ class ASTParser(Parser):
 
 
     def _visit_IdentifierList(self, node):
-        print('visiting id list')
+        logging.debug('visiting id list')
         for id in node.tokens:
             self._visit(id)
 
@@ -94,7 +95,7 @@ class ASTParser(Parser):
 
 
     def _visit_Identifier(self, node):
-        print('visiting id name={} alias={} -- in_select?{} in_from?{} in_with?{}'.format(
+        logging.debug('visiting id name={} alias={} -- in_select?{} in_from?{} in_with?{}'.format(
           node.get_real_name(), 
           node.get_alias(), 
           self.ast.in_select, 
@@ -104,28 +105,28 @@ class ASTParser(Parser):
             self.ast.select.append(node.get_name())
 
         elif self.ast.in_from:
-            print('-- identified source {}'.format(node.get_name()))
+            logging.debug('-- identified source {}'.format(node.get_name()))
             self.ast.source[node.get_name()] = Source(node.get_real_name())
             self.ast.in_from = False
 
         elif self.ast.in_with:
-            print('-- new ast for {}'.format(node.get_name()))
+            logging.debug('-- new ast for {}'.format(node.get_name()))
             self.ast.source[node.get_name()] = Source(node.get_real_name(), is_cte=True)
             self._asts.append(AST())
             for t in node.tokens:
                 self._visit(t)
 
         else:
-            print('found ids {} but not sure what for'.format(node.get_name()))
+            logging.debug('found ids {} but not sure what for'.format(node.get_name()))
 
     def _visit_Parenthesis(self, node):
-        print('visiting paren')
+        logging.debug('visiting paren')
         for id in node.tokens:
             self._visit(id)
         self.sub_asts.append(self._asts.pop())
-        print('-- exiting parens:')
-        pprint(self.sub_asts)
-        pprint(self._asts)
+        logging.debug('-- exiting parens:')
+        logging.debug(pformat(self.sub_asts))
+        logging.debug(pformat(self._asts))
         
 
 
