@@ -32,6 +32,10 @@ def test_removes_empty_stmts():
         'f': Source('first_table'), 
         's': Source('second_table'),
     }),
+    ('tests/resources/easy_union.sql', {
+        'table_1': Source('table_1'), 
+        'table_2': Source('table_2'),
+    }),
 
 ])
 def test_find_sources(input_path, expected_source):
